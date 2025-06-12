@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Dashboard') - Gudang Kita</title>
+    <title><?php echo $__env->yieldContent('title', 'Dashboard'); ?> - Gudang Kita</title>
 
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -163,25 +163,25 @@
         <!-- Sidebar -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <a class="app-logo" href="{{ route('produk.index') }}"><i class="fas fa-cubes-stacked"></i> Gudang Kita</a>
+                <a class="app-logo" href="<?php echo e(route('produk.index')); ?>"><i class="fas fa-cubes-stacked"></i> Gudang Kita</a>
             </div>
 
             <ul class="list-unstyled components">
                 <p>Menu Utama</p>
-                <li class="{{ Route::is('produk.index') ? 'active' : '' }}">
-                    <a href="{{ route('produk.index') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <li class="<?php echo e(Route::is('produk.index') ? 'active' : ''); ?>">
+                    <a href="<?php echo e(route('produk.index')); ?>"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
                 </li>
-                <li class="{{ Route::is('produk.create') ? 'active' : '' }}">
-                    <a href="{{ route('produk.create') }}"><i class="fas fa-plus-circle"></i> Tambah Produk</a>
+                <li class="<?php echo e(Route::is('produk.create') ? 'active' : ''); ?>">
+                    <a href="<?php echo e(route('produk.create')); ?>"><i class="fas fa-plus-circle"></i> Tambah Produk</a>
                 </li>
-                <li class="{{ Route::is('produk.laporan') ? 'active' : '' }}">
-                    <a href="{{ route('produk.laporan') }}"><i class="fas fa-chart-line"></i> Laporan</a>
+                <li class="<?php echo e(Route::is('produk.laporan') ? 'active' : ''); ?>">
+                    <a href="<?php echo e(route('produk.laporan')); ?>"><i class="fas fa-chart-line"></i> Laporan</a>
                     
 
                 <p>Akun</p>
                  <li>
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
+                    <form action="<?php echo e(route('logout')); ?>" method="POST">
+                        <?php echo csrf_field(); ?>
                         <button type="submit" class="btn btn-link text-decoration-none w-100 text-start btn-logout-link">
                            <i class="fas fa-sign-out-alt"></i> Logout
                         </button>
@@ -192,12 +192,12 @@
 
         <!-- Page Content -->
         <div id="content">
-            @yield('content')
+            <?php echo $__env->yieldContent('content'); ?>
         </div>
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    @stack('scripts')
+    <?php echo $__env->yieldPushContent('scripts'); ?>
 </body>
-</html>
+</html><?php /**PATH C:\Users\egiag\Downloads\Tubes Pergudangan\Tubes Pergudangan\resources\views/layout.blade.php ENDPATH**/ ?>

@@ -1,6 +1,6 @@
-@extends('layout')
-@section('title', 'Dashboard')
-@section('content')
+
+<?php $__env->startSection('title', 'Dashboard'); ?>
+<?php $__env->startSection('content'); ?>
 
 <!-- Header Halaman -->
 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -9,7 +9,7 @@
         <p class="text-muted">Ringkasan inventaris Anda saat ini.</p>
     </div>
     <div>
-        <a href="{{ route('produk.laporan') }}" class="btn btn-primary">Lihat Laporan</a>
+        <a href="<?php echo e(route('produk.laporan')); ?>" class="btn btn-primary">Lihat Laporan</a>
     </div>
 </div>
 
@@ -22,7 +22,7 @@
                     <i class="fas fa-box-open"></i>
                 </div>
                 <div>
-                    <h5 class="card-title fw-bold mb-0">{{ $totalProduk }}</h5>
+                    <h5 class="card-title fw-bold mb-0"><?php echo e($totalProduk); ?></h5>
                     <p class="card-text text-muted">Total Jenis Produk</p>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                     <i class="fas fa-boxes-stacked"></i>
                 </div>
                 <div>
-                    <h5 class="card-title fw-bold mb-0">{{ $totalStok }}</h5>
+                    <h5 class="card-title fw-bold mb-0"><?php echo e($totalStok); ?></h5>
                     <p class="card-text text-muted">Total Stok Keseluruhan</p>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                     <i class="fas fa-tags"></i>
                 </div>
                 <div>
-                    <h5 class="card-title fw-bold mb-0">{{ $totalKategori }}</h5>
+                    <h5 class="card-title fw-bold mb-0"><?php echo e($totalKategori); ?></h5>
                     <p class="card-text text-muted">Jumlah Kategori</p>
                 </div>
             </div>
@@ -64,12 +64,13 @@
                 <h5 class="card-title mb-0 fw-bold">Daftar Produk Terbaru</h5>
             </div>
             <div class="card-body">
-                @if(session('success'))
+                <?php if(session('success')): ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('success') }}
+                    <?php echo e(session('success')); ?>
+
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-                @endif
+                <?php endif; ?>
 
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
@@ -84,50 +85,51 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($produks as $index => $produk)
+                            <?php $__empty_1 = true; $__currentLoopData = $produks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $produk): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                             <tr>
-                                <td>{{ $produks->firstItem() + $index }}</td>
-                                <td><strong class="text-dark">{{ $produk->nama_produk }}</strong><br><small class="text-muted">SKU: {{ $produk->sku }}</small></td>
-                                <td><span class="badge" style="background-color: #E2E8F0; color: #475569;">{{ $produk->kategori }}</span></td>
-                                <td>{{ $produk->jumlah }}</td>
-                                <td>Rp {{ number_format($produk->harga_beli, 0, ',', '.') }}</td>
+                                <td><?php echo e($produks->firstItem() + $index); ?></td>
+                                <td><strong class="text-dark"><?php echo e($produk->nama_produk); ?></strong><br><small class="text-muted">SKU: <?php echo e($produk->sku); ?></small></td>
+                                <td><span class="badge" style="background-color: #E2E8F0; color: #475569;"><?php echo e($produk->kategori); ?></span></td>
+                                <td><?php echo e($produk->jumlah); ?></td>
+                                <td>Rp <?php echo e(number_format($produk->harga_beli, 0, ',', '.')); ?></td>
                                 <td class="text-center">
-                                     <a href="{{ route('produk.edit', $produk->id) }}" class="btn btn-sm btn-outline-primary" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                                    <form action="{{ route('produk.destroy', $produk->id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
+                                     <a href="<?php echo e(route('produk.edit', $produk->id)); ?>" class="btn btn-sm btn-outline-primary" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                                    <form action="<?php echo e(route('produk.destroy', $produk->id)); ?>" method="POST" class="d-inline">
+                                        <?php echo csrf_field(); ?>
+                                        <?php echo method_field('DELETE'); ?>
                                         <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Yakin ingin menghapus produk ini?')" title="Hapus"><i class="fas fa-trash-alt"></i></button>
                                     </form>
                                 </td>
                             </tr>
-                            @empty
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                             <tr>
                                 <td colspan="6" class="text-center py-5 text-muted">
                                     <i class="fas fa-box-open fa-3x mb-3"></i>
                                     <p>Data produk masih kosong.</p>
                                 </td>
                             </tr>
-                            @endforelse
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
-                @if($produks->hasPages())
+                <?php if($produks->hasPages()): ?>
                 <div class="d-flex justify-content-end mt-3">
-                    {{ $produks->links('pagination::bootstrap-5') }}
+                    <?php echo e($produks->links('pagination::bootstrap-5')); ?>
+
                 </div>
-                @endif
+                <?php endif; ?>
             </div>
         </div>
     </div>
 </div>
 
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@push('scripts')
+<?php $__env->startPush('scripts'); ?>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const categoryData = @json($chartData);
+    const categoryData = <?php echo json_encode($chartData, 15, 512) ?>;
 
     const ctx = document.getElementById('categoryPieChart').getContext('2d');
     new Chart(ctx, {
@@ -159,4 +161,5 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
+<?php echo $__env->make('layout', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\egiag\Downloads\Tubes Pergudangan\Tubes Pergudangan\resources\views/produk/index.blade.php ENDPATH**/ ?>

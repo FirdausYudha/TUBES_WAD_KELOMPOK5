@@ -1,20 +1,20 @@
-@extends('layout')
-@section('title', 'Laporan Produk')
 
-@section('content')
+<?php $__env->startSection('title', 'Laporan Produk'); ?>
+
+<?php $__env->startSection('content'); ?>
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
         <h1 class="h3 fw-bold mb-0">Laporan Produk</h1>
         <p class="text-muted">Ringkasan dan daftar lengkap produk dengan filter.</p>
     </div>
     <div>
-        <a href="{{ route('produk.laporan.csv', request()->query()) }}" class="btn btn-success me-2">
+        <a href="<?php echo e(route('produk.laporan.csv', request()->query())); ?>" class="btn btn-success me-2">
             <i class="fas fa-file-csv"></i> Download CSV
         </a>
-        <a href="{{ route('produk.laporan.pdf', request()->query()) }}" class="btn btn-danger me-2">
+        <a href="<?php echo e(route('produk.laporan.pdf', request()->query())); ?>" class="btn btn-danger me-2">
             <i class="fas fa-file-pdf"></i> Download PDF
         </a>
-        <a href="{{ route('produk.index') }}" class="btn btn-secondary">Kembali ke Dashboard</a>
+        <a href="<?php echo e(route('produk.index')); ?>" class="btn btn-secondary">Kembali ke Dashboard</a>
     </div>
 </div>
 
@@ -27,7 +27,7 @@
                     <i class="fas fa-box-open"></i>
                 </div>
                 <div>
-                    <h5 class="card-title fw-bold mb-0">{{ $totalProduk }}</h5>
+                    <h5 class="card-title fw-bold mb-0"><?php echo e($totalProduk); ?></h5>
                     <p class="card-text text-muted">Produk Ditemukan</p>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                     <i class="fas fa-boxes-stacked"></i>
                 </div>
                 <div>
-                    <h5 class="card-title fw-bold mb-0">{{ $totalStok }}</h5>
+                    <h5 class="card-title fw-bold mb-0"><?php echo e($totalStok); ?></h5>
                     <p class="card-text text-muted">Total Stok</p>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                     <i class="fas fa-tags"></i>
                 </div>
                 <div>
-                    <h5 class="card-title fw-bold mb-0">{{ $totalKategori }}</h5>
+                    <h5 class="card-title fw-bold mb-0"><?php echo e($totalKategori); ?></h5>
                     <p class="card-text text-muted">Jml Kategori</p>
                 </div>
             </div>
@@ -66,7 +66,7 @@
                     <i class="fas fa-exclamation-triangle"></i>
                 </div>
                 <div>
-                    <h5 class="card-title fw-bold mb-0">{{ $stokRendah }}</h5>
+                    <h5 class="card-title fw-bold mb-0"><?php echo e($stokRendah); ?></h5>
                     <p class="card-text text-muted">Stok Rendah (≤10)</p>
                 </div>
             </div>
@@ -77,34 +77,36 @@
 <!-- Filter dan Search -->
 <div class="card mb-4">
     <div class="card-body">
-        <form method="GET" action="{{ route('produk.laporan') }}" class="row g-3">
+        <form method="GET" action="<?php echo e(route('produk.laporan')); ?>" class="row g-3">
             <div class="col-md-3">
                 <label class="form-label">Kategori</label>
                 <select name="kategori" class="form-select">
                     <option value="">Semua</option>
-                    @foreach($kategoris as $kategori)
-                        <option value="{{ $kategori }}" {{ request('kategori') == $kategori ? 'selected' : '' }}>
-                            {{ $kategori }}
+                    <?php $__currentLoopData = $kategoris; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $kategori): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($kategori); ?>" <?php echo e(request('kategori') == $kategori ? 'selected' : ''); ?>>
+                            <?php echo e($kategori); ?>
+
                         </option>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </select>
             </div>
             <div class="col-md-3">
                 <label class="form-label">Supplier</label>
                 <select name="supplier" class="form-select">
                     <option value="">Semua</option>
-                    @foreach($suppliers as $supplier)
-                        <option value="{{ $supplier }}" {{ request('supplier') == $supplier ? 'selected' : '' }}>
-                            {{ $supplier }}
+                    <?php $__currentLoopData = $suppliers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $supplier): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($supplier); ?>" <?php echo e(request('supplier') == $supplier ? 'selected' : ''); ?>>
+                            <?php echo e($supplier); ?>
+
                         </option>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </select>
             </div>
             <div class="col-md-4">
                 <label class="form-label">Cari Produk</label>
                 <input type="text" name="search" class="form-control" 
                        placeholder="Nama atau SKU..." 
-                       value="{{ request('search') }}">
+                       value="<?php echo e(request('search')); ?>">
             </div>
             <div class="col-md-2 d-flex align-items-end">
                 <div class="d-grid w-100">
@@ -123,13 +125,13 @@
         <h5 class="card-title mb-0 fw-bold">Daftar Produk Lengkap</h5>
         <div class="d-flex align-items-center">
             <small class="text-muted me-3">
-                Menampilkan {{ $produks->count() }} dari {{ $produks->total() }} produk
+                Menampilkan <?php echo e($produks->count()); ?> dari <?php echo e($produks->total()); ?> produk
             </small>
             <select class="form-select form-select-sm" style="width: auto;" onchange="changePerPage(this.value)">
-                <option value="10" {{ request('per_page') == '10' ? 'selected' : '' }}>10 per halaman</option>
-                <option value="25" {{ request('per_page') == '25' ? 'selected' : '' }}>25 per halaman</option>
-                <option value="50" {{ request('per_page') == '50' ? 'selected' : '' }}>50 per halaman</option>
-                <option value="100" {{ request('per_page') == '100' ? 'selected' : '' }}>100 per halaman</option>
+                <option value="10" <?php echo e(request('per_page') == '10' ? 'selected' : ''); ?>>10 per halaman</option>
+                <option value="25" <?php echo e(request('per_page') == '25' ? 'selected' : ''); ?>>25 per halaman</option>
+                <option value="50" <?php echo e(request('per_page') == '50' ? 'selected' : ''); ?>>50 per halaman</option>
+                <option value="100" <?php echo e(request('per_page') == '100' ? 'selected' : ''); ?>>100 per halaman</option>
             </select>
         </div>
     </div>
@@ -140,48 +142,48 @@
                     <tr>
                         <th>No</th>
                         <th>
-                            <a href="{{ request()->fullUrlWithQuery(['sort' => 'nama_produk', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc']) }}" 
+                            <a href="<?php echo e(request()->fullUrlWithQuery(['sort' => 'nama_produk', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'])); ?>" 
                                class="text-decoration-none text-dark">
                                 Nama Produk
-                                @if(request('sort') == 'nama_produk')
-                                    <i class="fas fa-sort-{{ request('direction') == 'asc' ? 'up' : 'down' }}"></i>
-                                @else
+                                <?php if(request('sort') == 'nama_produk'): ?>
+                                    <i class="fas fa-sort-<?php echo e(request('direction') == 'asc' ? 'up' : 'down'); ?>"></i>
+                                <?php else: ?>
                                     <i class="fas fa-sort text-muted"></i>
-                                @endif
+                                <?php endif; ?>
                             </a>
                         </th>
                         <th>SKU</th>
                         <th>
-                            <a href="{{ request()->fullUrlWithQuery(['sort' => 'kategori', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc']) }}" 
+                            <a href="<?php echo e(request()->fullUrlWithQuery(['sort' => 'kategori', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'])); ?>" 
                                class="text-decoration-none text-dark">
                                 Kategori
-                                @if(request('sort') == 'kategori')
-                                    <i class="fas fa-sort-{{ request('direction') == 'asc' ? 'up' : 'down' }}"></i>
-                                @else
+                                <?php if(request('sort') == 'kategori'): ?>
+                                    <i class="fas fa-sort-<?php echo e(request('direction') == 'asc' ? 'up' : 'down'); ?>"></i>
+                                <?php else: ?>
                                     <i class="fas fa-sort text-muted"></i>
-                                @endif
+                                <?php endif; ?>
                             </a>
                         </th>
                         <th>
-                            <a href="{{ request()->fullUrlWithQuery(['sort' => 'jumlah', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc']) }}" 
+                            <a href="<?php echo e(request()->fullUrlWithQuery(['sort' => 'jumlah', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'])); ?>" 
                                class="text-decoration-none text-dark">
                                 Stok
-                                @if(request('sort') == 'jumlah')
-                                    <i class="fas fa-sort-{{ request('direction') == 'asc' ? 'up' : 'down' }}"></i>
-                                @else
+                                <?php if(request('sort') == 'jumlah'): ?>
+                                    <i class="fas fa-sort-<?php echo e(request('direction') == 'asc' ? 'up' : 'down'); ?>"></i>
+                                <?php else: ?>
                                     <i class="fas fa-sort text-muted"></i>
-                                @endif
+                                <?php endif; ?>
                             </a>
                         </th>
                         <th>
-                            <a href="{{ request()->fullUrlWithQuery(['sort' => 'harga_beli', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc']) }}" 
+                            <a href="<?php echo e(request()->fullUrlWithQuery(['sort' => 'harga_beli', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'])); ?>" 
                                class="text-decoration-none text-dark">
                                 Harga Beli
-                                @if(request('sort') == 'harga_beli')
-                                    <i class="fas fa-sort-{{ request('direction') == 'asc' ? 'up' : 'down' }}"></i>
-                                @else
+                                <?php if(request('sort') == 'harga_beli'): ?>
+                                    <i class="fas fa-sort-<?php echo e(request('direction') == 'asc' ? 'up' : 'down'); ?>"></i>
+                                <?php else: ?>
                                     <i class="fas fa-sort text-muted"></i>
-                                @endif
+                                <?php endif; ?>
                             </a>
                         </th>
                         <th>Supplier</th>
@@ -189,60 +191,62 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($produks as $index => $produk)
+                    <?php $__empty_1 = true; $__currentLoopData = $produks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $produk): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                     <tr>
-                        <td>{{ $produks->firstItem() + $index }}</td>
+                        <td><?php echo e($produks->firstItem() + $index); ?></td>
                         <td>
-                            <strong class="text-dark">{{ $produk->nama_produk }}</strong>
-                            @if($produk->deskripsi)
-                                <br><small class="text-muted">{{ Str::limit($produk->deskripsi, 50) }}</small>
-                            @endif
+                            <strong class="text-dark"><?php echo e($produk->nama_produk); ?></strong>
+                            <?php if($produk->deskripsi): ?>
+                                <br><small class="text-muted"><?php echo e(Str::limit($produk->deskripsi, 50)); ?></small>
+                            <?php endif; ?>
                         </td>
                         <td>
-                            <code class="bg-light px-2 py-1 rounded">{{ $produk->sku }}</code>
+                            <code class="bg-light px-2 py-1 rounded"><?php echo e($produk->sku); ?></code>
                         </td>
                         <td>
-                            <span class="badge bg-secondary">{{ $produk->kategori }}</span>
+                            <span class="badge bg-secondary"><?php echo e($produk->kategori); ?></span>
                         </td>
                         <td>
-                            <span class="badge {{ $produk->jumlah <= 10 ? 'bg-danger-subtle text-danger-emphasis' : 'bg-success-subtle text-success-emphasis' }}">
-                                {{ $produk->jumlah }}
+                            <span class="badge <?php echo e($produk->jumlah <= 10 ? 'bg-danger-subtle text-danger-emphasis' : 'bg-success-subtle text-success-emphasis'); ?>">
+                                <?php echo e($produk->jumlah); ?>
+
                             </span>
                         </td>
-                        <td>Rp {{ number_format($produk->harga_beli, 0, ',', '.') }}</td>
-                        <td>{{ $produk->supplier }}</td>
+                        <td>Rp <?php echo e(number_format($produk->harga_beli, 0, ',', '.')); ?></td>
+                        <td><?php echo e($produk->supplier); ?></td>
                         <td>
-                            @if($produk->jumlah <= 0)
+                            <?php if($produk->jumlah <= 0): ?>
                                 <span class="badge bg-danger">Habis</span>
-                            @elseif($produk->jumlah <= 10)
+                            <?php elseif($produk->jumlah <= 10): ?>
                                 <span class="badge bg-warning">Stok Rendah</span>
-                            @else
+                            <?php else: ?>
                                 <span class="badge bg-success">Tersedia</span>
-                            @endif
+                            <?php endif; ?>
                         </td>
                     </tr>
-                    @empty
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <tr>
                         <td colspan="8" class="text-center py-5 text-muted">
                             <i class="fas fa-box-open fa-3x mb-3"></i>
-                            <p class="mb-0">{{ request()->hasAny(['search', 'kategori', 'supplier']) ? 'Tidak ada produk yang sesuai dengan filter.' : 'Data produk masih kosong.' }}</p>
-                            @if(request()->hasAny(['search', 'kategori', 'supplier']))
-                                <a href="{{ route('produk.laporan') }}" class="btn btn-sm btn-outline-primary mt-2">
+                            <p class="mb-0"><?php echo e(request()->hasAny(['search', 'kategori', 'supplier']) ? 'Tidak ada produk yang sesuai dengan filter.' : 'Data produk masih kosong.'); ?></p>
+                            <?php if(request()->hasAny(['search', 'kategori', 'supplier'])): ?>
+                                <a href="<?php echo e(route('produk.laporan')); ?>" class="btn btn-sm btn-outline-primary mt-2">
                                     <i class="fas fa-times"></i> Reset Filter
                                 </a>
-                            @endif
+                            <?php endif; ?>
                         </td>
                     </tr>
-                    @endforelse
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
         
-        @if($produks->hasPages())
+        <?php if($produks->hasPages()): ?>
             <div class="d-flex justify-content-end mt-3">
-                {{ $produks->appends(request()->query())->links('pagination::bootstrap-5') }}
+                <?php echo e($produks->appends(request()->query())->links('pagination::bootstrap-5')); ?>
+
             </div>
-        @endif
+        <?php endif; ?>
     </div>
 </div>
 
@@ -262,7 +266,7 @@
         <div class="card">
             <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
                 <h5 class="card-title mb-0 fw-bold">
-                    <a href="{{ route('produk.laporan.pdf', request()->query()) }}" class="btn btn-danger btn-sm">
+                    <a href="<?php echo e(route('produk.laporan.pdf', request()->query())); ?>" class="btn btn-danger btn-sm">
                         <i class="fas fa-file-pdf"></i> Export PDF
                     </a>
                 </h5>
@@ -274,7 +278,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
-@push('scripts')
+<?php $__env->startPush('scripts'); ?>
 <script>
 function changePerPage(value) {
     const url = new URL(window.location);
@@ -284,7 +288,7 @@ function changePerPage(value) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    const categoryData = @json($chartData);
+    const categoryData = <?php echo json_encode($chartData, 15, 512) ?>;
 
     const ctx = document.getElementById('categoryPieChart').getContext('2d');
     new Chart(ctx, {
@@ -316,5 +320,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
-@endpush
-@endsection
+<?php $__env->stopPush(); ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\egiag\Downloads\Tubes Pergudangan\Tubes Pergudangan\resources\views/produk/laporan.blade.php ENDPATH**/ ?>
