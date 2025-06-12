@@ -1,0 +1,55 @@
+@extends('layout')
+@section('title', 'Edit Produk')
+@section('content')
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h3 fw-bold mb-0">Edit Produk</h1>
+        <p class="text-muted">Perbarui data untuk produk: <strong class="text-dark">{{ $produk->nama_produk }}</strong></p>
+    </div>
+     <a href="{{ route('produk.index') }}" class="btn btn-outline-secondary"><i class="fas fa-arrow-left me-2"></i> Kembali</a>
+</div>
+
+<div class="card">
+    <div class="card-body p-4">
+        <form action="{{ route('produk.update', $produk->id) }}" method="POST">
+            @csrf
+            @method('PUT')
+            <div class="row g-4">
+                <div class="col-md-12">
+                    <label for="nama_produk" class="form-label">Nama Produk</label>
+                    <input type="text" name="nama_produk" id="nama_produk" class="form-control" value="{{ $produk->nama_produk }}" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="sku" class="form-label">SKU (Kode Unik Produk)</label>
+                    <input type="text" name="sku" id="sku" class="form-control" value="{{ $produk->sku }}" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="kategori" class="form-label">Kategori</label>
+                    <input type="text" name="kategori" id="kategori" class="form-control" value="{{ $produk->kategori }}" required>
+                </div>
+                 <div class="col-md-6">
+                    <label for="jumlah" class="form-label">Jumlah Stok</label>
+                    <input type="number" name="jumlah" id="jumlah" class="form-control" value="{{ $produk->jumlah }}" required min="0">
+                </div>
+                <div class="col-md-6">
+                    <label for="harga_beli" class="form-label">Harga Beli</label>
+                    <div class="input-group">
+                        <span class="input-group-text">Rp</span>
+                        <input type="number" name="harga_beli" id="harga_beli" class="form-control" value="{{ $produk->harga_beli }}" required min="0">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <label for="supplier" class="form-label">Nama Supplier</label>
+                    <input type="text" name="supplier" id="supplier" class="form-control" value="{{ $produk->supplier }}" required>
+                </div>
+            </div>
+            <div class="mt-4 d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary px-4">
+                    <i class="fas fa-save me-2"></i> Update Perubahan
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+@endsection
