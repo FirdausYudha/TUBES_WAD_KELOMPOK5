@@ -2,6 +2,7 @@ DIREKTORI YANG SUDAH DIBERI DESKRIPSI KODINGAN
 
 ## APP ##
 app/Http/Controllers/AuthController.php
+--------------------/ProdukController.php
 ---/Models/User.php
 ----------/Produk.php
 
