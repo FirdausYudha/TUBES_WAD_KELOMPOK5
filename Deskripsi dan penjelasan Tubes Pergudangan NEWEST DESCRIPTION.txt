@@ -1,0 +1,27 @@
+DIREKTORI YANG SUDAH DIBERI DESKRIPSI KODINGAN
+
+## APP ##
+app/Http/Controllers/AuthController.php
+---/Models/User.php
+----------/Produk.php
+
+## ROUTES ##
+routes/web.php
+
+## RESOURCES ##
+resources/views/auth/login.blade.php
+--------------------/register.blade.php
+---------------/layout.blade.php
+---------------/produk/create.blade.php
+----------------------/edit.blade.php
+----------------------/index.blade.php
+----------------------/laporan_pdf.blade.php
+----------------------/laporan.blade.php
+
+
+## DATABASE ##
+database/factories/UserFactories.php
+database/migrations/create_users_table.php
+-------------------/create_cache_table.php
+-------------------/create_jobs_table.php
+-------------------/create_produks_table.php
