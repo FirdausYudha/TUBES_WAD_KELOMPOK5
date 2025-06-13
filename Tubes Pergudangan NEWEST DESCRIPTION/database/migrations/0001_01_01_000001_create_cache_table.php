@@ -36,16 +36,18 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Membuat tabel 'cache' untuk menyimpan data cache
         Schema::create('cache', function (Blueprint $table) {
-            $table->string('key')->primary();
-            $table->mediumText('value');
-            $table->integer('expiration');
+            $table->string('key')->primary(); // Kolom 'key' sebagai primary key, tipe string
+            $table->mediumText('value');      // Kolom 'value' untuk menyimpan data cache dalam bentuk teks sedang
+            $table->integer('expiration');    // Kolom 'expiration' untuk menyimpan waktu kedaluwarsa cache (timestamp)
         });
 
+        // Membuat tabel 'cache_locks' untuk mengelola kunci cache agar sinkronisasi aman
         Schema::create('cache_locks', function (Blueprint $table) {
-            $table->string('key')->primary();
-            $table->string('owner');
-            $table->integer('expiration');
+            $table->string('key')->primary(); // Kolom 'key' sebagai primary key, tipe string, mewakili kunci yang dikunci
+            $table->string('owner');           // Kolom 'owner' untuk menyimpan identitas pemilik kunci
+            $table->integer('expiration');    // Kolom 'expiration' untuk menyimpan waktu kedaluwarsa kunci (timestamp)
         });
     }
 
@@ -54,7 +56,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cache');
-        Schema::dropIfExists('cache_locks');
+        Schema::dropIfExists('cache');       // Menghapus tabel 'cache' jika ada
+        Schema::dropIfExists('cache_locks'); // Menghapus tabel 'cache_locks' jika ada
     }
 };

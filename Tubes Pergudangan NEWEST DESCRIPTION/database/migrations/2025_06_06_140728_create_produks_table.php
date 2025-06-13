@@ -36,15 +36,16 @@ return new class extends Migration
      */
     public function up()
     {
+        // Membuat tabel 'produks' dengan kolom-kolom yang diperlukan
         Schema::create('produks', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama_produk');
-            $table->string('kategori');
-            $table->integer('jumlah');
-            $table->decimal('harga_beli', 15, 2);
-            $table->string('supplier');
-            $table->string('sku')->unique();
-            $table->timestamps();
+            $table->id(); // Kolom id sebagai primary key auto increment
+            $table->string('nama_produk'); // Kolom nama_produk untuk menyimpan nama produk
+            $table->string('kategori'); // Kolom kategori untuk menyimpan kategori produk
+            $table->integer('jumlah'); // Kolom jumlah untuk menyimpan stok produk
+            $table->decimal('harga_beli', 15, 2); // Kolom harga_beli untuk menyimpan harga beli produk dengan presisi 15,2
+            $table->string('supplier'); // Kolom supplier untuk menyimpan nama supplier produk
+            $table->string('sku')->unique(); // Kolom sku sebagai kode unik produk (Stock Keeping Unit)
+            $table->timestamps(); // Kolom created_at dan updated_at otomatis
         });
     }
 
@@ -54,6 +55,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        // Menghapus tabel 'produks' jika migrasi di-rollback
         Schema::dropIfExists('produks');
     }
 };
